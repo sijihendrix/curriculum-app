@@ -3,7 +3,7 @@ pipeline {
   stages {
     stage('Checkout Code') {
       steps {
-        git(url: 'https://github.com/sijihendrix/curriculum-app.git', branch: 'dev')
+        git(url: 'https://github.com/sijihendrix/monolith-to-microservices-project.git', branch: 'deployment')
       }
     }
 
@@ -12,11 +12,16 @@ pipeline {
         sh 'ls -la'
       }
     }
+
     stage('Build') {
       steps {
-        sh 'docker build -f curriculum-front/Dockerfile -t anileloye/curriculum-front:latest .'
+        sh 'docker push anileloye/frontend:latest'
+        sh 'docker push anileloye/api-user:latest'
+        sh 'docker push anileloye/api-feed:latest'
+        sh 'docker push anileloye/reverseproxy:latest'
       }
     }
+
 
     stage('Log into Dockerhub') {
       environment {
@@ -30,10 +35,14 @@ pipeline {
 
     stage('Push') {
       steps {
-        sh 'docker push anileloye/curriculum-front:latest'
+        sh 'docker push anileloye/frontend:latest'
+        sh 'docker push anileloye/api-user:latest'
+        sh 'docker push anileloye/api-feed:latest'
+        sh 'docker push anileloye/reverseproxy:latest'
       }
     }
 
   }
 }
+
 
