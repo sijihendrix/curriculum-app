@@ -12,7 +12,6 @@ pipeline {
         sh 'ls -la'
       }
     }
-
     stage('Build') {
       steps {
         sh 'docker build -f curriculum-front/Dockerfile -t anileloye/curriculum-front:latest .'
